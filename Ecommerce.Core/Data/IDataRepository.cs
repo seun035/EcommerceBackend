@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Core.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Ecommerce.Core.Data
         Task AddRangeAsync(IEnumerable<T> entities);
 
         Task<T> GetAsync(Guid entityId, bool allowNull = false);
+
+        Task<T> GetAsync(Expression<Func<T, bool>> expression, bool allowNull = false);
 
         Task<IList<T>> FindAllAsync();
 

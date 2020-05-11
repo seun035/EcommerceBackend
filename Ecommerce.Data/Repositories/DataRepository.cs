@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +63,20 @@ namespace Ecommerce.Data.Repositories
 
             _dbContext.Entry<T>(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expression, bool allowNull = false)
+        {
+            ArgumentGuard.NotNull(expression, nameof(expression));
+
+            var entity = await _dbContext.Set<T>().Where(expression).SingleOrDefaultAsync();
+
+            if (entity == null && !allowNull)
+            {
+                throw new ObjectNotFoundException($"object not found");
+            }
+
+            return entity;
         }
     }
 }

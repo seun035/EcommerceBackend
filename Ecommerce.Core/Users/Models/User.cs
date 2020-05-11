@@ -19,6 +19,12 @@ namespace Ecommerce.Core.Users.Models
 
         public string Salt { get; set; }
 
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
+
+        public DateTime CreatedDateUtc { get; set; }
+
+        public DateTime? LastModifiedDateUtc { get; set; }
+
+        public DateTime? DeletedDateUtc { get; set; }
     }
 }

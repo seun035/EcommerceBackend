@@ -19,6 +19,9 @@ using Ecommerce.Framework.Bootstrap;
 using Ecommerce.UIApi.Middlewares;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Ecommerce.UIApi
 {
@@ -43,6 +46,18 @@ namespace Ecommerce.UIApi
 
             services.AddCors(option => option.AddPolicy("CorsPolicy", c => c.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200")
                        .AllowCredentials()));
+            services.AddAuthentication(options => { options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; })
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Super Secret Key")),
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce Api", Version = "v1" });
@@ -71,6 +86,8 @@ namespace Ecommerce.UIApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

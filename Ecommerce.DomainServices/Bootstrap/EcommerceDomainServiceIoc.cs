@@ -1,9 +1,13 @@
-﻿using Ecommerce.Core.Brands;
+﻿using Ecommerce.Core.Auths;
+using Ecommerce.Core.Brands;
 using Ecommerce.Core.Categories;
 using Ecommerce.Core.Products;
+using Ecommerce.Core.Users;
+using Ecommerce.DomainServices.Accounts;
 using Ecommerce.DomainServices.Brands;
 using Ecommerce.DomainServices.Categories;
 using Ecommerce.DomainServices.Products;
+using Ecommerce.DomainServices.Users;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,6 +25,9 @@ namespace Ecommerce.DomainServices.Bootstrap
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryManager, CategoryManager>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUserAccountService, UserAccountService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             return services;
         }

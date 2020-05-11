@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Core.Brands.Models;
 using Ecommerce.Core.Categories.Models;
 using Ecommerce.Core.Products.Models;
+using Ecommerce.Core.Users.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,10 @@ namespace Ecommerce.Data
         public DbSet<Brand> Brands { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

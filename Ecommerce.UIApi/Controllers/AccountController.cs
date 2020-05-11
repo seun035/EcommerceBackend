@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Core.Auths;
+using Ecommerce.Core.Auths.Models;
 using Ecommerce.Core.Users.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,15 +22,15 @@ namespace Ecommerce.UIApi.Controllers
         }
         
         [HttpPost("register")]
-        public void RegisterUser(UserRegistrationModel userRegistrationModel)
+        public async Task<Guid> RegisterUser(UserRegistrationModel userRegistrationModel)
         {
-            _accountService.RegisterUserAsync(userRegistrationModel);
+           return await _accountService.RegisterUserAsync(userRegistrationModel);
         }
 
-        [HttpPost("login")]
-        public void LoginUser(UserLoginModel userLoginModel)
+        [HttpGet("login")]
+        public async Task<AuthenticationResponse> LoginUser(UserLoginModel userLoginModel)
         {
-            _accountService.LoginUserAsync(userLoginModel);
+            return await _accountService.LoginUserAsync(userLoginModel);
         }
     }
 }

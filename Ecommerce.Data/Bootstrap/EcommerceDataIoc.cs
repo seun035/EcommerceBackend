@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Core.Data;
+using Ecommerce.Core.Users;
 using Ecommerce.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,6 +15,7 @@ namespace Ecommerce.Data.Bootstrap
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

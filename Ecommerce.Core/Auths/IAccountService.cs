@@ -1,4 +1,5 @@
-﻿using Ecommerce.Core.Users.Models;
+﻿using Ecommerce.Core.Auths.Models;
+using Ecommerce.Core.Users.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,8 @@ namespace Ecommerce.Core.Auths
 {
     public interface IAccountService
     {
-        Task RegisterUserAsync(UserRegistrationModel userRegistrationModel);
+        Task<Guid> RegisterUserAsync(UserRegistrationModel userRegistrationModel);
 
-        Task LoginUserAsync(UserLoginModel userLoginModel);
+        Task<AuthenticationResponse> LoginUserAsync(UserLoginModel userLoginModel);
     }
 }

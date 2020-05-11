@@ -1,4 +1,6 @@
-﻿using Ecommerce.Core.ShoppingCarts;
+﻿using Ecommerce.Core.Auths;
+using Ecommerce.Core.ShoppingCarts;
+using Ecommerce.Framework.Auths;
 using Ecommerce.Framework.Redis;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
@@ -18,6 +20,7 @@ namespace Ecommerce.Framework.Bootstrap
             {
                return ConnectionMultiplexer.Connect("localhost");
             });
+            services.AddScoped<IJwtGenerator, JwtGeneator>();
             return services;
         }
     }
