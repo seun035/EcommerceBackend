@@ -22,6 +22,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Ecommerce.Core.Users;
+using Microsoft.AspNetCore.Http;
 
 namespace Ecommerce.UIApi
 {
@@ -43,6 +45,8 @@ namespace Ecommerce.UIApi
             services.EcommerceDomainServiceDISetUp();
             services.EcommerceUIApiServicesDISetUp();
             services.EcommerceFrameworkServicesDISetUp();
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddCors(option => option.AddPolicy("CorsPolicy", c => c.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200")
                        .AllowCredentials()));

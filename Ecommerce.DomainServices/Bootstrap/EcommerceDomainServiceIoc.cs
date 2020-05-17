@@ -26,7 +26,9 @@ namespace Ecommerce.DomainServices.Bootstrap
             services.AddScoped<ICategoryManager, CategoryManager>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUserAccountService, UserAccountService>();
+            services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IAccountService, AccountService>();
 
             return services;

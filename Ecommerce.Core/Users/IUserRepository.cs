@@ -2,6 +2,7 @@
 using Ecommerce.Core.Users.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,6 @@ namespace Ecommerce.Core.Users
 {
     public interface IUserRepository: IDataRepository<User>
     {
-        Task<User> GetUserByEmailAsync(string email, bool allowNull = false);
+        Task<User> GetUserAsync(Expression<Func<User, bool>> expression, bool allowNull = false);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Core.Exceptions;
+using Ecommerce.Core.Framework;
 using Ecommerce.Core.Helpers;
 using Ecommerce.Core.Users;
 using Ecommerce.Core.Users.Models;
@@ -14,38 +15,12 @@ namespace Ecommerce.DomainServices.Users
     public class UserAccountService : IUserAccountService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ICryptoService _cryptoService;
 
-        public UserAccountService(IUserRepository userRepository)
+        public UserAccountService(IUserRepository userRepository, ICryptoService cryptoService)
         {
             _userRepository = userRepository;
-        }
-
-        public string GenerateSalt()
-        {
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-
-            return Encoding.Default.GetString(salt);
-        }
-
-        public string HashPassword(string password, string passwordSalt)
-        {
-            ArgumentGuard.NotNull(password, nameof(password));
-            ArgumentGuard.NotNull(passwordSalt, nameof(passwordSalt));
-
-            var salt = Encoding.Default.GetBytes(passwordSalt);
-
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: password,
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA1,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
-
-            return hashed;
+            _cryptoService = cryptoService;
         }
 
         public async Task<User> LoginAsync(string email, string password)
@@ -55,14 +30,31 @@ namespace Ecommerce.DomainServices.Users
 
             var user = await _userRepository.GetAsync(u => u.Email == email.Trim().ToLower());
 
-            var hashedPassword = HashPassword(password, user.Salt);
+            var hashedPassword = _cryptoService.HashPasswordKeyDerivationPbkdf2(password, user.Salt);
 
             if (user.PasswordHash != hashedPassword)
             {
-                throw new AppException(400, "Invalid credentials");
+                throw new AppException(400, "Invalid credentials"); // change to validation error
             }
 
             return user;
+        }
+
+        public async Task RegisterAsync(CreateUserModel model)
+        {
+            ArgumentGuard.NotNull(model, nameof(model));
+
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                DisplayName = model.DisplayName,
+                Email = model.Email,
+                PasswordHash = model.PasswordHash,
+                Salt = model.Salt,
+                CreatedDateUtc = DateTime.UtcNow
+            };
+
+            await _userRepository.AddAsync(user);
         }
     }
 }

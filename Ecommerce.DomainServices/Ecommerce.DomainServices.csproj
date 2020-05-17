@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Users\Models\" />
-  </ItemGroup>
-
 </Project>

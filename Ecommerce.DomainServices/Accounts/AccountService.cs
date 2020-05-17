@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Core.Auths;
 using Ecommerce.Core.Auths.Models;
+using Ecommerce.Core.Framework;
 using Ecommerce.Core.Helpers;
 using Ecommerce.Core.Users;
 using Ecommerce.Core.Users.Models;
@@ -13,17 +14,19 @@ namespace Ecommerce.DomainServices.Accounts
     public class AccountService : IAccountService
     {
         private readonly IUserAccountService _userAccountService;
-        private readonly IUserService _userService;
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly ICryptoService _cryptoService;
 
-        public AccountService(IUserAccountService userAccountService, IUserService userService, IJwtGenerator jwtGenerator)
+        public AccountService(IUserAccountService userAccountService,
+                              IJwtGenerator jwtGenerator,
+                              ICryptoService cryptoService)
         {
             _userAccountService = userAccountService;
-            _userService = userService;
             _jwtGenerator = jwtGenerator;
+            _cryptoService = cryptoService;
         }
 
-        public async Task<AuthenticationResponse> LoginUserAsync(UserLoginModel userLoginModel)
+        public async Task<AuthenticationResponse> LoginWithPasswordAsync(UserLoginModel userLoginModel)
         {
             ArgumentGuard.NotNull(userLoginModel, nameof(userLoginModel));
 
@@ -33,14 +36,14 @@ namespace Ecommerce.DomainServices.Accounts
             return new AuthenticationResponse { Token = token };
         }
 
-        public async Task<Guid> RegisterUserAsync(UserRegistrationModel userRegistrationModel)
+        public async Task RegisterWithPasswordAsync(UserRegistrationModel userRegistrationModel)
         {
             ArgumentGuard.NotNull(userRegistrationModel, nameof(userRegistrationModel));
 
             // validate userinfo
 
-            var salt = _userAccountService.GenerateSalt();
-            var passwordHash = _userAccountService.HashPassword(userRegistrationModel.Password, salt);
+            var salt = _cryptoService.GenerateSalt(32);
+            var passwordHash = _cryptoService.HashPasswordKeyDerivationPbkdf2(userRegistrationModel.Password, salt);
 
             var createUserModel = new CreateUserModel
             {
@@ -50,7 +53,7 @@ namespace Ecommerce.DomainServices.Accounts
                 Salt = salt
             };
 
-            return await _userService.CreateUserAsync(createUserModel);
+            await _userAccountService.RegisterAsync(createUserModel);
         }
     }
 }

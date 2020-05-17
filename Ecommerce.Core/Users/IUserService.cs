@@ -8,6 +8,8 @@ namespace Ecommerce.Core.Users
 {
     public interface IUserService
     {
-        Task<Guid> CreateUserAsync(CreateUserModel model);
+        Task<User> GetUseInfoAsync(Guid userId);
+
+        Task UpdateUserAsync(UpdateUserModel model);
     }
 }

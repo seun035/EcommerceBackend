@@ -9,8 +9,8 @@ namespace Ecommerce.Core.Auths
 {
     public interface IAccountService
     {
-        Task<Guid> RegisterUserAsync(UserRegistrationModel userRegistrationModel);
+        Task RegisterWithPasswordAsync(UserRegistrationModel userRegistrationModel);
 
-        Task<AuthenticationResponse> LoginUserAsync(UserLoginModel userLoginModel);
+        Task<AuthenticationResponse> LoginWithPasswordAsync(UserLoginModel userLoginModel);
     }
 }

@@ -16,6 +16,8 @@ namespace Ecommerce.Core.Data
 
         Task<T> GetAsync(Guid entityId, bool allowNull = false);
 
+        T Get(Guid entityId, bool allowNull = false);
+
         Task<T> GetAsync(Expression<Func<T, bool>> expression, bool allowNull = false);
 
         Task<IList<T>> FindAllAsync();

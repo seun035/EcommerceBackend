@@ -8,10 +8,12 @@ namespace Ecommerce.Core.Users
 {
     public interface IUserAccountService
     {
-        string HashPassword(string password, string passwordSalt);
+        //string HashPassword(string password, string passwordSalt);
 
-        string GenerateSalt();
+        //string GenerateSalt();
 
         Task<User> LoginAsync(string email, string password);
+
+        Task RegisterAsync(CreateUserModel model);
     }
 }

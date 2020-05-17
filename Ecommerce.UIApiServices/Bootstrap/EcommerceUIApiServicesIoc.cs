@@ -3,6 +3,7 @@ using Ecommerce.UIApiServices.Brands;
 using Ecommerce.UIApiServices.Categories;
 using Ecommerce.UIApiServices.Categories.ViewModels;
 using Ecommerce.UIApiServices.Products;
+using Ecommerce.UIApiServices.Users;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Ecommerce.UIApiServices.Bootstrap
             services.AddScoped<IProductComposerService, ProductComposerService>();
             services.AddScoped<IBrandComposerService, BrandComposerService>();
             services.AddScoped<ICategoryComposerService, CategoryComposerService>();
+            services.AddScoped<IUserComposerService, UserComposerService>();
 
             services.AddAutoMapper(typeof(EcommerceUIApiServicesMapperProfile));
 

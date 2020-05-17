@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,11 +38,11 @@ namespace Ecommerce.UIApi.Middlewares
             {
                 case AppException ex:
                     context.Response.StatusCode = ex.StatusCode;
-                    error = ex.FriendlyMessage;
+                    error = new { ex.StatusCode, Message = ex.FriendlyMessage };
                     break;
                 case Exception ex:
                     context.Response.StatusCode = 500;
-                    error = "Internal server error";
+                    error = new { StatusCode = 500, ex.Message, ex.StackTrace };
                     break;
             }
 
@@ -49,8 +50,10 @@ namespace Ecommerce.UIApi.Middlewares
 
             if (error != null)
             {
-                var result = JsonSerializer.Serialize(new { error });
+                var namingPolicy = new JsonSerializerOptions();
+                namingPolicy.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
+                var result = JsonSerializer.Serialize(error, namingPolicy);
                 await context.Response.WriteAsync(result);
             }
         }

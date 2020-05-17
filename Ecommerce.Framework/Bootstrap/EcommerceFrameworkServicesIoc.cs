@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Core.Auths;
+using Ecommerce.Core.Framework;
 using Ecommerce.Core.ShoppingCarts;
 using Ecommerce.Framework.Auths;
 using Ecommerce.Framework.Redis;
@@ -16,6 +17,7 @@ namespace Ecommerce.Framework.Bootstrap
         {
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<ICryptoService, CryptoService>();
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
                return ConnectionMultiplexer.Connect("localhost");

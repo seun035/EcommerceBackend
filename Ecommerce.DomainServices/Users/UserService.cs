@@ -17,23 +17,27 @@ namespace Ecommerce.DomainServices.Users
             _userRepository = userRepository;
         }
 
-        public async Task<Guid> CreateUserAsync(CreateUserModel model)
+        public async Task<User> GetUseInfoAsync(Guid userId)
+        {
+            ArgumentGuard.NotEmpty(userId, nameof(userId));
+
+            var user = await _userRepository.GetUserAsync(u => u.Id == userId);
+            return user;
+        }
+
+        public async Task UpdateUserAsync(UpdateUserModel model)
         {
             ArgumentGuard.NotNull(model, nameof(model));
 
-            var user = new User 
-            { 
-                Id = Guid.NewGuid(), 
-                DisplayName = model.DisplayName, 
-                Email = model.Email, 
-                PasswordHash = model.PasswordHash, 
-                Salt = model.Salt, 
-                CreatedDateUtc = DateTime.UtcNow 
-            };
+            var user = await _userRepository.GetAsync(model.Id);
 
-            await _userRepository.AddAsync(user);
-            return user.Id;
+            user.Address = model.Address;
+            user.DisplayName = model.DisplayName;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.LastModifiedDateUtc = DateTime.UtcNow;
+
+            await _userRepository.UpdateAsync(user);
         }
-
     }
 }

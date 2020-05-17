@@ -22,15 +22,15 @@ namespace Ecommerce.UIApi.Controllers
         }
         
         [HttpPost("register")]
-        public async Task<Guid> RegisterUser(UserRegistrationModel userRegistrationModel)
+        public async Task RegisterAsync(UserRegistrationModel userRegistrationModel)
         {
-           return await _accountService.RegisterUserAsync(userRegistrationModel);
+           await _accountService.RegisterWithPasswordAsync(userRegistrationModel);
         }
 
         [HttpGet("login")]
-        public async Task<AuthenticationResponse> LoginUser(UserLoginModel userLoginModel)
+        public async Task<AuthenticationResponse> LoginAsync(UserLoginModel userLoginModel)
         {
-            return await _accountService.LoginUserAsync(userLoginModel);
+            return await _accountService.LoginWithPasswordAsync(userLoginModel);
         }
     }
 }

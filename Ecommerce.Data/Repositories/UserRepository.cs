@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,15 +22,15 @@ namespace Ecommerce.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email, bool allowNull = false)
+        public async Task<User> GetUserAsync(Expression<Func<User, bool>> expression, bool allowNull = false)
         {
-            ArgumentGuard.NotNull(email, nameof(email));
+            ArgumentGuard.NotNull(expression, nameof(expression));
 
-            var user = await _dbContext.Users.Include(x => x.Address).SingleOrDefaultAsync(u => u.Email == email);
+            var user = await _dbContext.Users.Include(x => x.Address).SingleOrDefaultAsync(expression);
 
             if (user == null && !allowNull)
             {
-                throw new ObjectNotFoundException($"user not found with email: {email}");
+                throw new ObjectNotFoundException($"user not found");
             }
 
             return user;

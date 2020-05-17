@@ -38,6 +38,20 @@ namespace Ecommerce.Data.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public T Get(Guid entityId, bool allowNull = false)
+        {
+            ArgumentGuard.NotEmpty(entityId, nameof(entityId));
+
+            var entity = _dbContext.Set<T>().Find(entityId);
+
+            if (entity == null && !allowNull)
+            {
+                throw new ObjectNotFoundException($"No record found that matches the given Id {entityId}");
+            }
+
+            return entity;
+        }
+
         public async Task<T> GetAsync(Guid entityId, bool allowNull = false)
         {
             ArgumentGuard.NotEmpty(entityId, nameof(entityId));
