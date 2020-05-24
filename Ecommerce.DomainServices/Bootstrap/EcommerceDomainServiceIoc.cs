@@ -30,6 +30,7 @@ namespace Ecommerce.DomainServices.Bootstrap
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserPermissionService, UserPermissionService>();
 
             return services;
         }

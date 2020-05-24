@@ -11,5 +11,7 @@ namespace Ecommerce.Core.Users
     public interface IUserRepository: IDataRepository<User>
     {
         Task<User> GetUserAsync(Expression<Func<User, bool>> expression, bool allowNull = false);
+
+        User GetUser(Expression<Func<User, bool>> expression, bool allowNull = false);
     }
 }

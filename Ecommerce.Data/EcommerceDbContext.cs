@@ -28,6 +28,8 @@ namespace Ecommerce.Data
 
         public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<UserRole> Roles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

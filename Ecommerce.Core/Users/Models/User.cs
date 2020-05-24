@@ -15,6 +15,8 @@ namespace Ecommerce.Core.Users.Models
 
         public string Email { get; set; }
 
+        public IList<UserRole> Roles { get; set; }
+
         public Address Address { get; set; }
 
         public string Salt { get; set; }

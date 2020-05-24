@@ -29,7 +29,7 @@ namespace Ecommerce.DomainServices.Users
         {
             ArgumentGuard.NotNull(model, nameof(model));
 
-            var user = await _userRepository.GetAsync(model.Id);
+            var user = await _userRepository.GetUserAsync(u => u.Id == model.Id);
 
             user.Address = model.Address;
             user.DisplayName = model.DisplayName;

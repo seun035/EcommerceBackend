@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ecommerce.Core.Users.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,5 +14,7 @@ namespace Ecommerce.Core.Users
         string Email { get; }
 
         string DisplayName { get; }
+
+        Role[] Roles { get; }
     }
 }

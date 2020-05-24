@@ -44,11 +44,13 @@ namespace Ecommerce.DomainServices.Users
         {
             ArgumentGuard.NotNull(model, nameof(model));
 
+            var userId = Guid.NewGuid();
             var user = new User
             {
-                Id = Guid.NewGuid(),
+                Id = userId,
                 DisplayName = model.DisplayName,
                 Email = model.Email,
+                Roles = new List<UserRole> { new UserRole { Role = Role.User } },
                 PasswordHash = model.PasswordHash,
                 Salt = model.Salt,
                 CreatedDateUtc = DateTime.UtcNow
