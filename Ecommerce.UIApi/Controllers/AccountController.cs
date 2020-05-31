@@ -27,7 +27,7 @@ namespace Ecommerce.UIApi.Controllers
            await _accountService.RegisterWithPasswordAsync(userRegistrationModel);
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<AuthenticationResponse> LoginAsync(UserLoginModel userLoginModel)
         {
             return await _accountService.LoginWithPasswordAsync(userLoginModel);

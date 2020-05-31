@@ -14,7 +14,6 @@ namespace Ecommerce.UIApi.Controllers
 {
     [Route("products")]
     [ApiController]
-    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductComposerService _productComposerService;

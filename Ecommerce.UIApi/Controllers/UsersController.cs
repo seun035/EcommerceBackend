@@ -39,6 +39,7 @@ namespace Ecommerce.UIApi.Controllers
             await _userComposerService.UpadateUserAsync(model, userId);
         }
 
+        [AllowAnonymous]
         [HttpGet("_usercontext")]
         public UserContextViewModel GetUserContext()
         {

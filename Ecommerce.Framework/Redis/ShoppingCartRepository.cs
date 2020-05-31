@@ -29,8 +29,13 @@ namespace Ecommerce.Framework.Redis
 
         public async Task<ShoppingCart> GetShoppingCartAsync(Guid? cartId)
         {
+            var result = default(RedisValue);
 
-            var result = await _redisDatabase.StringGetAsync(cartId?.ToString() ?? Guid.Empty.ToString());
+            if (cartId.HasValue)
+            {
+                result = await _redisDatabase.StringGetAsync(cartId.Value.ToString());
+
+            }            
 
             if (result.IsNullOrEmpty)
             {
